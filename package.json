@@ -1,0 +1,19 @@
+{
+  "name": "vd-keyvalue-store",
+  "version": "1.0.0",
+  "description": "a version controlled key-value store",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --timeout 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielwu84/vd-keyvalue-store.git"
+  },
+  "author": "Gabriel Wu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielwu84/vd-keyvalue-store/issues"
+  },
+  "homepage": "https://github.com/gabrielwu84/vd-keyvalue-store#readme"
+}
