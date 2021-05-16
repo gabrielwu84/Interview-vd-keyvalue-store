@@ -26,13 +26,15 @@ describe('Objects', () => {
         });
     });
     describe('/GET /object/', () => {
-        it('it should return status 200', (done) => {
+        it('it should GET value of key mykey', (done) => {
             chai.request(server)
                 .get('/object/mykey')
                 .end((err,res)=>{
                     console.log(res.text)
                     res.should.have.status(200);
-                    done()                
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('value').eql( 'value1' );
+                    done()
                 })
         });
     });
