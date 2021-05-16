@@ -21,6 +21,8 @@ function postObject(req, res) {
 function getObject(req, res) {
 	// res.send('get request received')
     Obj.find({ key: req.params.key })
+        .sort( { timestamp: -1 } )
+        .limit(1)
         .then((obj) => {
             res.json({"value":obj[0].value})        
         })
