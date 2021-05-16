@@ -30,6 +30,10 @@ function getObject(req, res) {
         .then((obj) => {
             res.json({"value":obj[0].value})        
         })
+        .catch(()=>{ 
+            // key not found 
+            res.status(405).send({ error: req.params.key+" not found" })
+        })
 }
 
 module.exports = { getObject, postObject };

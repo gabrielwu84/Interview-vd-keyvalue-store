@@ -11,11 +11,13 @@ chai.use(chaiHttp);
 describe('Objects', () => {
     let testObj1 = { mykey: "value1" };
     let testObj2 = { mykey: "value2" };
+    let testObj3 = { anotherkey: "value2" };
     before((done) => {
         Obj.deleteMany({}, (err) => {
             done();
         });
     });
+    // happy flow as specified in test document
     describe('/POST /object', () => {
         it('it should POST a key-value object and return the object with a timestamp', (done) => {
             chai.request(server)
@@ -85,6 +87,36 @@ describe('Objects', () => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('value').eql( Object.values(testObj1)[0] );
+                    done()                
+                })
+        });
+    });
+
+    // further edge cases
+    describe('/GET with timestamp before first POST', () => {
+        // will break if "before deleteMany" not run 
+        it("it should return 'key not found'", (done) => {
+            chai.request(server)
+                .get('/object/' + Object.keys(testObj1)[0]+"?timestamp="+(parseInt(timestamp1)-5))
+                .end((err,res)=>{
+                    console.log(res.text)
+                    res.should.have.status(405);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('error').eql(Object.keys(testObj1)[0]+" not found");
+                    done()                
+                })
+        });
+    });
+    describe('/GET an unknown key', () => {
+        // will break if "before deleteMany" not run 
+        it("it should return 'key not found'", (done) => {
+            chai.request(server)
+                .get('/object/' + Object.keys(testObj3)[0])
+                .end((err,res)=>{
+                    console.log(res.text)
+                    res.should.have.status(405);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('error').eql(Object.keys(testObj3)[0]+" not found");
                     done()                
                 })
         });
