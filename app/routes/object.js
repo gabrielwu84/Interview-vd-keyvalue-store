@@ -1,7 +1,6 @@
 let Obj = require('../models/object');
 
 function postObject(req, res) {
-    // res.send('post request received');
     // grab the first instance of key-value pair, 
     // ignore other key-value pairs.
     let [key, value] = Object.entries(req.body)[0];
@@ -19,8 +18,13 @@ function postObject(req, res) {
 }
 
 function getObject(req, res) {
-	// res.send('get request received')
-    Obj.find({ key: req.params.key })
+    let reqTimestamp;
+    if( typeof (req.query.timestamp) != 'undefined' ){
+        reqTimestamp = new Date(parseInt(req.query.timestamp))
+    } else {
+        reqTimestamp = new Date()
+    }
+    Obj.find({ key: req.params.key , timestamp:{$lte: reqTimestamp} })
         .sort( { timestamp: -1 } )
         .limit(1)
         .then((obj) => {
