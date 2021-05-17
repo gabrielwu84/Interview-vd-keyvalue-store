@@ -1,7 +1,6 @@
 let mongoose = require("mongoose");
 let Obj = require('../app/models/object');
 
-//Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../server');
@@ -24,7 +23,7 @@ describe('Objects', () => {
                 .post('/object')
                 .send( testObj1 )
                 .end((err, res) => {
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('key').eql( Object.keys(testObj1)[0] );
@@ -40,7 +39,7 @@ describe('Objects', () => {
             chai.request(server)
                 .get('/object/'+ Object.keys(testObj1)[0])
                 .end((err,res)=>{
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('value').eql( Object.values(testObj1)[0] );
@@ -54,7 +53,7 @@ describe('Objects', () => {
                 .post('/object')
                 .send( testObj2 )
                 .end((err, res) => {
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('key').eql( Object.keys(testObj2)[0] );
@@ -70,7 +69,7 @@ describe('Objects', () => {
             chai.request(server)
                 .get('/object/'+ Object.keys(testObj2)[0])
                 .end((err,res)=>{
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('value').eql( Object.values(testObj2)[0] );
@@ -83,7 +82,7 @@ describe('Objects', () => {
             chai.request(server)
                 .get('/object/' + Object.keys(testObj1)[0]+"?timestamp="+(parseInt(timestamp1)+2))
                 .end((err,res)=>{
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('value').eql( Object.values(testObj1)[0] );
@@ -99,7 +98,7 @@ describe('Objects', () => {
             chai.request(server)
                 .get('/object/' + Object.keys(testObj1)[0]+"?timestamp="+(parseInt(timestamp1)-5))
                 .end((err,res)=>{
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(405);
                     res.body.should.be.a('object');
                     res.body.should.have.property('error').eql(Object.keys(testObj1)[0]+" not found");
@@ -113,7 +112,7 @@ describe('Objects', () => {
             chai.request(server)
                 .get('/object/' + Object.keys(testObj3)[0])
                 .end((err,res)=>{
-                    console.log(res.text)
+                    // console.log(res.text)
                     res.should.have.status(405);
                     res.body.should.be.a('object');
                     res.body.should.have.property('error').eql(Object.keys(testObj3)[0]+" not found");
